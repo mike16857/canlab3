@@ -44,7 +44,7 @@ size_t getFileSize(FILE *fd) {
     return size;
 }
 
-void sendFile(FILE *fd) {
+void sendFile(FILE *fd, unsigned short port) {
     Packet send, recv;
     // Set all fields in the packet to 0, including header.seq, header.ack,
     // header.size, header.isLast, and data payload fields
@@ -68,31 +68,46 @@ void sendFile(FILE *fd) {
         pause();                       // <-- Remove this line
 
         // Seek to the "current" position in the file
-
+        fd += current;
         // Read 1024 bytes from the file into the data field of the packet we will send
+        int i;
+        for (i = 0; i < 1024; i++) {
+
+        }
 
         // Check if the current position indicates that the last packet is to be sent
             // If it is, set the packet size to the remaining bytes in the file
             // Set the isLast flag to true
         // Otherwise
             // Set the packet size to 1024
+        if () {
+
+            send.header.isLast == true
+        }
+        else {
+
+        }
 
         printf("Send SEQ = %u\n", send.header.seq);
         // Send the packet to the client
-
+        send(port, send.data, len(send.data), 0);
         // Wait for a response from the client using poll(..., TIMEOUT) with the POLLIN event
         // Alternatively, set the timeout with setsockopt(..., SO_RCVTIMEO, ...) after creating the socket
-
-        // if (...) {
-        //     printf("Timeout! Resend!\n");
-        //     continue;
-        // }
+        struct pollfd from_client;
+        from_client.fd = // server's socketfd
+        from_client.event = POLLIN;
+        poll(from_client, 1, TIMEOUT);
+        if () {
+            printf("Timeout! Resend!\n");
+            continue;
+        }
 
         printf("Received ACK = %u\n", recv.header.ack);
 
         // Update the current position in the file
-
+        current += 1024;
         // Update the sequence number
+        send.header.seq += 1;
     }
 }
 
@@ -132,7 +147,7 @@ int main(int argc, char **argv) {
                 sendMessage(message);
 
                 printf("══════ Sending ═══════\n");
-                sendFile(fd);
+                sendFile(fd, port);
                 printf("══════════════════════\n");
 
                 fclose(fd);
