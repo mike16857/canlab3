@@ -85,9 +85,9 @@ void recvFile(char *buffer) {
 
         printf("Received SEQ = %u\n", packet.header.seq);
 
-        /* Print the content of the received packet */
-        printf("Received SEQ = %u, ACK = %u, Size = %d bytes\n", packet.header.seq, packet.header.ack, packet.header.size);
-        printf("Packet Data:\n%s\n", packet.data);
+        // /* Print the content of the received packet */
+        // printf("Received SEQ = %u, ACK = %u, Size = %d bytes\n", packet.header.seq, packet.header.ack, packet.header.size);
+        // printf("Packet Data:\n%s\n", packet.data);
 
         // Send an acknowledgement for the received packet
         sendAck(packet.header.seq);
@@ -95,17 +95,15 @@ void recvFile(char *buffer) {
         // Copy the packet data into the buffer
         // Use memcpy() instead of strncpy() since the file
         // may contain 0x00 (interpreted as a null terminator)
-
-        // memcpy(buffer, packet.data, 1024);
         memcpy(buffer + totalSize, packet.data, recv_size - sizeof(packet.header));
 
         /* Increment the total received data size */ 
         totalSize += recv_size - sizeof(packet.header);
 
-        /* Print the content of the buffer */
-        printf("Buffer Content:\n");
-        fwrite(buffer, sizeof(char), recv_size - sizeof(packet.header), stdout);
-        printf("\n");
+        // /* Print the content of the buffer */
+        // printf("Buffer Content:\n");
+        // fwrite(buffer, sizeof(char), recv_size - sizeof(packet.header), stdout);
+        // printf("\n");
 
         // Increment the sequence number
         seq += 1;

@@ -44,67 +44,14 @@ size_t getFileSize(FILE *fd) {
     return size;
 }
 
-// void sendFile(FILE *fd, unsigned short port) {
-//     Packet send, recv;
-//     // Set all fields in the packet to 0, including header.seq, header.ack,
-//     // header.size, header.isLast, and data payload fields
-//     memset(&send, 0, sizeof(send));
-//     memset(&recv, 0, sizeof(recv));
-
-//     // Determine the size of the file
-//     size_t filesize = getFileSize(fd);
-
-//     // Keep track of the current position in the file
-//     // 0 --> 1024 --> 2048 --> ...
-//     size_t current = 0;
-
-//     // Loop through the file, sending packets until the entire file has been sent
-//     while (current < filesize) {
-//         // ╔═══════════════════════════════════════╗
-//         // ║ Please remove the two lines below and ║
-//         // ║ implement the following procedures    ║
-//         // ╚═══════════════════════════════════════╝
-
-//         // Seek to the "current" position in the file
-        
-//         // Read 1024 bytes from the file into the data field of the packet we will send
-
-//         // Check if the current position indicates that the last packet is to be sent
-//             // If it is, set the packet size to the remaining bytes in the file
-//             // Set the isLast flag to true
-//         // Otherwise
-//             // Set the packet size to 1024
-
-//         printf("Send SEQ = %u\n", send.header.seq);
-
-//         // Send the packet to the client
-//         send(port, send.data, len(send.data), 0);
-
-//         // Wait for a response from the client using poll(..., TIMEOUT) with the POLLIN event
-//         // Alternatively, set the timeout with setsockopt(..., SO_RCVTIMEO, ...) after creating the socket
-
-//         if () {
-//             printf("Timeout! Resend!\n");
-//             continue;
-//         }
-
-//         printf("Received ACK = %u\n", recv.header.ack);
-
-//         // Update the current position in the file
-
-//         // Update the sequence number
-//         send.header.seq += 1;
-//     }
+// void printPacket(Packet *packet) {
+//     printf("Packet content:\n");
+//     printf("  SEQ: %u\n", packet->header.seq);
+//     printf("  ACK: %u\n", packet->header.ack);
+//     printf("  Size: %u\n", packet->header.size);
+//     printf("  isLast: %d\n", packet->header.isLast);
+//     printf("  Data: %.*s\n", (int)packet->header.size, packet->data);
 // }
-
-void printPacket(Packet *packet) {
-    printf("Packet content:\n");
-    printf("  SEQ: %u\n", packet->header.seq);
-    printf("  ACK: %u\n", packet->header.ack);
-    printf("  Size: %u\n", packet->header.size);
-    printf("  isLast: %d\n", packet->header.isLast);
-    printf("  Data: %.*s\n", (int)packet->header.size, packet->data);
-}
 
 void sendFile(FILE *fd) {
     Packet send, recv;
@@ -131,8 +78,8 @@ void sendFile(FILE *fd) {
             send.header.isLast = false;
         }
 
-        /* Print the content of the packet before sending */ 
-        printPacket(&send);
+        // /* Print the content of the packet before sending */ 
+        // printPacket(&send);
 
         printf("Send SEQ = %u\n", send.header.seq);
         // Send the packet to the client
