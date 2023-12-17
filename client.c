@@ -95,6 +95,7 @@ void recvFile(char *buffer) {
         // Copy the packet data into the buffer
         // Use memcpy() instead of strncpy() since the file
         // may contain 0x00 (interpreted as a null terminator)
+        // move buffer pointer to the current end of the buffer, and then copy the packet content
         memcpy(buffer + totalSize, packet.data, recv_size - sizeof(packet.header));
 
         /* Increment the total received data size */ 
